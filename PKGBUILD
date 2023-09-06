@@ -14,12 +14,12 @@ optdepends=('python-virtualenv: Use virtualenv for build isolation')
 makedepends=('git' 'python-build' 'python-flit-core' 'python-installer'
              'python-sphinx' 'python-sphinx-argparse-cli' 'python-sphinx-autodoc-typehints' 'python-sphinx-furo' 'python-sphinx-issues')
 checkdepends=('python-pytest' 'python-pytest-mock' 'python-pytest-rerunfailures' 'python-filelock' 'python-setuptools' 'python-wheel')
-source=("git+$url#tag=$pkgver")
+source=("$pkgname::git+$url#tag=$pkgver")
 #validpgpkeys=('3DCE51D60930EBA47858BA4146F633CBB0EB4BF2') # Filipe Laíns (FFY00) <lains@archlinux.org>
 sha512sums=('SKIP')
 
 build() {
-  cd $_pkgname
+  cd $pkgname
 
   python -m build --wheel --skip-dependency-check --no-isolation
 
@@ -27,13 +27,13 @@ build() {
 }
 
 check() {
-  cd $_pkgname
+  cd $pkgname
 
   PYTHONPATH=src pytest
 }
 
 package() {
-  cd $_pkgname
+  cd $pkgname
 
   python -m installer --destdir="$pkgdir" dist/*.whl
 
