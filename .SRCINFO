@@ -1,0 +1,29 @@
+pkgbase = python-build
+	pkgdesc = A simple, correct Python packaging build frontend
+	pkgver = 1.0.3
+	pkgrel = 1
+	url = https://github.com/pypa/build
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-mock
+	checkdepends = python-pytest-rerunfailures
+	checkdepends = python-filelock
+	checkdepends = python-setuptools
+	checkdepends = python-wheel
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-flit-core
+	makedepends = python-installer
+	makedepends = python-sphinx
+	makedepends = python-sphinx-argparse-cli
+	makedepends = python-sphinx-autodoc-typehints
+	makedepends = python-sphinx-furo
+	makedepends = python-sphinx-issues
+	depends = python-packaging
+	depends = python-pyproject-hooks
+	optdepends = python-virtualenv: Use virtualenv for build isolation
+	source = python-build::git+https://github.com/pypa/build#tag=1.0.3
+	sha512sums = SKIP
+
+pkgname = python-build
