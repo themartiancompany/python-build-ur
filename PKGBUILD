@@ -4,7 +4,7 @@
 _pkgname=build
 pkgname=python-$_pkgname
 pkgver=1.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A simple, correct Python packaging build frontend'
 arch=('any')
 url='https://github.com/pypa/build'
@@ -14,11 +14,11 @@ makedepends=('git' 'python-build' 'python-flit-core' 'python-installer'
              'python-sphinx' 'python-sphinx-argparse-cli' 'python-sphinx-autodoc-typehints' 'python-sphinx-furo' 'python-sphinx-issues')
 checkdepends=('python-pytest' 'python-pytest-mock' 'python-pytest-rerunfailures' 'python-filelock' 'python-setuptools' 'python-wheel')
 optdepends=('python-virtualenv: Use virtualenv for build isolation')
-source=("$pkgname::git+$url#tag=$pkgver")
-#validpgpkeys=(
+source=("$pkgname::git+$url#tag=$pkgver?signed")
+validpgpkeys=(
 #  '3DCE51D60930EBA47858BA4146F633CBB0EB4BF2' # Filipe Laíns (FFY00) <lains@archlinux.org>
-#  '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8' # Henry Schreiner <henryschreineriii@gmail.com>
-#)
+  '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8' # Henry Schreiner <henryschreineriii@gmail.com>
+)
 sha512sums=('SKIP')
 
 build() {

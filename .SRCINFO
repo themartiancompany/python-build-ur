@@ -1,7 +1,7 @@
 pkgbase = python-build
 	pkgdesc = A simple, correct Python packaging build frontend
 	pkgver = 1.1.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pypa/build
 	arch = any
 	license = MIT
@@ -23,7 +23,8 @@ pkgbase = python-build
 	depends = python-packaging
 	depends = python-pyproject-hooks
 	optdepends = python-virtualenv: Use virtualenv for build isolation
-	source = python-build::git+https://github.com/pypa/build#tag=1.1.1
+	source = python-build::git+https://github.com/pypa/build#tag=1.1.1?signed
+	validpgpkeys = 2FDEC9863E5E14C7BC429F27B9D0E45146A241E8
 	sha512sums = SKIP
 
 pkgname = python-build
