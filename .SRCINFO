@@ -25,6 +25,6 @@ pkgbase = python-build
 	optdepends = python-virtualenv: Use virtualenv for build isolation
 	source = python-build::git+https://github.com/pypa/build#tag=1.1.1?signed
 	validpgpkeys = 2FDEC9863E5E14C7BC429F27B9D0E45146A241E8
-	sha512sums = SKIP
+	b2sums = fbbf71287a3e716a8997eb92f03c57d949a3b520b336bd737a443f1db8c368c3a1e48341fa1ea5eadf49eb4f3b9bc2a1b96f1279bde9e1eb20fdd06f561f0c77
 
 pkgname = python-build

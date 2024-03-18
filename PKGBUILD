@@ -19,7 +19,7 @@ validpgpkeys=(
 #  '3DCE51D60930EBA47858BA4146F633CBB0EB4BF2' # Filipe Laíns (FFY00) <lains@archlinux.org>
   '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8' # Henry Schreiner <henryschreineriii@gmail.com>
 )
-sha512sums=('SKIP')
+b2sums=('fbbf71287a3e716a8997eb92f03c57d949a3b520b336bd737a443f1db8c368c3a1e48341fa1ea5eadf49eb4f3b9bc2a1b96f1279bde9e1eb20fdd06f561f0c77')
 
 build() {
   cd $pkgname
