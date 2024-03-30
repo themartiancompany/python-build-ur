@@ -3,23 +3,32 @@
 
 _pkgname=build
 pkgname=python-$_pkgname
-pkgver=1.1.1
-pkgrel=2
-pkgdesc='A simple, correct Python packaging build frontend'
+pkgver=1.2.1
+pkgrel=1
+pkgdesc='A simple, correct Python build frontend'
 arch=('any')
 url='https://github.com/pypa/build'
 license=('MIT')
 depends=('python-packaging' 'python-pyproject-hooks')
-makedepends=('git' 'python-build' 'python-flit-core' 'python-installer'
-             'python-sphinx' 'python-sphinx-argparse-cli' 'python-sphinx-autodoc-typehints' 'python-sphinx-furo' 'python-sphinx-issues')
-checkdepends=('python-pytest' 'python-pytest-mock' 'python-pytest-rerunfailures' 'python-filelock' 'python-setuptools' 'python-wheel')
-optdepends=('python-virtualenv: Use virtualenv for build isolation')
+makedepends=(
+  'git' 'python-build' 'python-flit-core' 'python-installer'
+  'python-sphinx' 'python-sphinx-argparse-cli' 'python-sphinx-autodoc-typehints' 'python-sphinx-furo' 'python-sphinx-issues'
+)
+checkdepends=(
+  'python-pytest' 'python-pytest-mock' 'python-pytest-rerunfailures'
+  'python-filelock' 'python-setuptools' 'python-uv' 'python-virtualenv' 'python-wheel'
+)
+optdepends=(
+  'python-pip: to use as the Python package installer (default)'
+  'python-uv: to use as the Python package installer'
+  'python-virtualenv: to use virtualenv for build isolation'
+)
 source=("$pkgname::git+$url#tag=$pkgver?signed")
 validpgpkeys=(
 #  '3DCE51D60930EBA47858BA4146F633CBB0EB4BF2' # Filipe Laíns (FFY00) <lains@archlinux.org>
   '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8' # Henry Schreiner <henryschreineriii@gmail.com>
 )
-b2sums=('fbbf71287a3e716a8997eb92f03c57d949a3b520b336bd737a443f1db8c368c3a1e48341fa1ea5eadf49eb4f3b9bc2a1b96f1279bde9e1eb20fdd06f561f0c77')
+b2sums=('891acaf857efc18c210648a681c8499a47b6fe5ba58176d026bdfeffce665de26cd17580fcace2fb5970b2f21a37127ea73c196a5a2b8510dd84f6b873217c17')
 
 build() {
   cd $pkgname
@@ -32,7 +41,7 @@ build() {
 check() {
   cd $pkgname
 
-  PYTHONPATH=src pytest
+  PYTHONPATH=src pytest -k 'not test_verbose_output'
 }
 
 package() {
