@@ -17,6 +17,7 @@ pkgbase = python-build
 	makedepends = python-build
 	makedepends = python-flit-core
 	makedepends = python-installer
+	depends = python
 	depends = python-packaging
 	depends = python-pyproject-hooks
 	optdepends = python-pip: to use as the Python package installer (default)

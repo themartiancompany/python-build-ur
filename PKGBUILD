@@ -9,7 +9,7 @@ pkgdesc='A simple, correct Python build frontend'
 arch=('any')
 url='https://github.com/pypa/build'
 license=('MIT')
-depends=('python-packaging' 'python-pyproject-hooks')
+depends=('python' 'python-packaging' 'python-pyproject-hooks')
 makedepends=(
   'git' 'python-build' 'python-flit-core' 'python-installer'
 )
