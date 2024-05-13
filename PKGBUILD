@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
+# Maintainer: Truocolo <truocolo@aol.com>
 # Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 
@@ -52,3 +56,4 @@ package() {
   ln -s "$site_packages"/$_pkgname-$pkgver.dist-info/LICENSE \
     "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 }
+
