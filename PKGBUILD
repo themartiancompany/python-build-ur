@@ -2,12 +2,21 @@
 #
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
-# Maintainer: Daniel M. Capella <polyzen@archlinux.org>
+# Contributor: Filipe Laíns (FFY00) <lains@archlinux.org>
+# Contributor: Daniel M. Capella <polyzen@archlinux.org>
 
+_build="true"
+_no_build="$( \
+  "${_py}" \
+    -m \
+      build \
+    --version | \
+    grep \
+      "No module named")"
+[[ "${_no_build}" != "" ]] && \
+  _build=false
 _py="python"
-_pkg="build"
-_pkgname=build
+_pkg=build
 pkgname="${_py}-${_pkg}"
 pkgver=1.2.1
 pkgrel=3
@@ -22,42 +31,47 @@ license=(
   'MIT'
 )
 depends=(
-  'python'
-  'python-packaging'
-  'python-pyproject-hooks'
+  "${_py}"
+  "${_py}-packaging"
+  "${_py}-pyproject-hooks"
 )
 makedepends=(
   'git'
-  # One could tell arch devs have gone mad
-  # by the fact they had python-build
-  # depending on itself instead than
-  # on python-wheel and python-setuptools
-  # to build
-  'python-build'
-  'python-flit-core'
-  'python-installer'
+  "${_py}-flit-core"
+  "${_py}-installer"
 )
+[[ "${_build}" == true ]] && \
+  makedepends+=(
+    "${_py}-build"
+  )
+[[ "${_build}" == false ]] && \
+  makedepends+=(
+    "${_py}-wheel"
+    "${_py}-setuptools"
+  )
 checkdepends=(
-  'python-pytest'
-  'python-pytest-mock'
-  'python-pytest-rerunfailures'
-  'python-filelock'
-  'python-setuptools'
-  'python-uv'
-  'python-virtualenv'
-  'python-wheel'
+  "${_py}-pytest"
+  "${_py}-pytest-mock"
+  "${_py}-pytest-rerunfailures"
+  "${_py}-filelock"
+  "${_py}-setuptools"
+  "${_py}-uv"
+  "${_py}-virtualenv"
+  "${_py}-wheel"
 )
 optdepends=(
-  'python-pip: to use as the Python package installer (default)'
-  'python-uv: to use as the Python package installer'
-  'python-virtualenv: to use virtualenv for build isolation'
+  "${_py}-pip: to use as the Python package installer (default)"
+  "${_py}-uv: to use as the Python package installer"
+  "${_py}-virtualenv: to use virtualenv for build isolation"
 )
 source=(
   "${pkgname}::git+${url}#tag=${pkgver}?signed"
 )
 validpgpkeys=(
-#  '3DCE51D60930EBA47858BA4146F633CBB0EB4BF2' # Filipe Laíns (FFY00) <lains@archlinux.org>
-  '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8' # Henry Schreiner <henryschreineriii@gmail.com>
+  # Filipe Laíns (FFY00) <lains@archlinux.org>
+  # '3DCE51D60930EBA47858BA4146F633CBB0EB4BF2'
+  # Henry Schreiner <henryschreineriii@gmail.com>
+  '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8'
 )
 b2sums=(
   '891acaf857efc18c210648a681c8499a47b6fe5ba58176d026bdfeffce665de26cd17580fcace2fb5970b2f21a37127ea73c196a5a2b8510dd84f6b873217c17'
@@ -66,12 +80,17 @@ b2sums=(
 build() {
   cd \
     "${pkgname}"
-  # This is foolishness
-  "${_py}" \
-    -m build \
-    --wheel \
-    --skip-dependency-check \
-    --no-isolation
+  if [[ "${_build}" == true ]]; then
+    "${_py}" \
+      -m build \
+      --wheel \
+      --skip-dependency-check \
+      --no-isolation
+  elif [[ "${_build}" == false ]]; then
+    "${_py}" \
+      setup.py \
+        build
+  fi
 }
 
 check() {
@@ -99,17 +118,25 @@ package() {
         "${_site_packages_cmd[*]}")
   cd \
     "${pkgname}"
-  python \
-    -m installer \
-    --destdir="${pkgdir}" \
-    dist/*.whl
+  if [[ "${_build}" == true ]]; then
+    "${_py}" \
+      -m installer \
+      --destdir="${pkgdir}" \
+      dist/*.whl
+  elif [[ "${_build}" == false ]]; then
+    "${_py}" \
+      setup.py \
+      install \
+      --root="${pkgdir}" \
+      --optimize=1
+  fi
   # Symlink license file
   install \
     -d \
     "${pkgdir}/usr/share/licenses/${pkgname}"
   ln \
     -s \
-    "${_site_packages}/${_pkgname}-${pkgver}.dist-info/LICENSE" \
+    "${_site_packages}/${_pkg}-${pkgver}.dist-info/LICENSE" \
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
