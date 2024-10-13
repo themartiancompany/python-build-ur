@@ -1,6 +1,6 @@
 pkgbase = python-build
 	pkgdesc = A simple, correct Python build frontend
-	pkgver = 1.2.1
+	pkgver = 1.2.2
 	pkgrel = 3
 	url = https://github.com/pypa/build
 	arch = any
@@ -13,18 +13,17 @@ pkgbase = python-build
 	checkdepends = python-uv
 	checkdepends = python-virtualenv
 	checkdepends = python-wheel
-	makedepends = git
-	makedepends = python-build
 	makedepends = python-flit-core
 	makedepends = python-installer
+	makedepends = python-build
 	depends = python
 	depends = python-packaging
 	depends = python-pyproject-hooks
 	optdepends = python-pip: to use as the Python package installer (default)
 	optdepends = python-uv: to use as the Python package installer
 	optdepends = python-virtualenv: to use virtualenv for build isolation
-	source = python-build::git+https://github.com/pypa/build#tag=1.2.1?signed
+	source = build-1.2.2.tar.gz::https://github.com/pypa/build/archive/refs/tags/1.2.2.tar.gz
 	validpgpkeys = 2FDEC9863E5E14C7BC429F27B9D0E45146A241E8
-	b2sums = 891acaf857efc18c210648a681c8499a47b6fe5ba58176d026bdfeffce665de26cd17580fcace2fb5970b2f21a37127ea73c196a5a2b8510dd84f6b873217c17
+	b2sums = 308faba9fca554fc2ea347d20ee2f2a460060922c028d7ae37648290f4caa374616105d740ed285729204028d40bfb838b4de59ae20eaa8db1c0924f0d1cd8a8
 
 pkgname = python-build

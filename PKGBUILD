@@ -5,6 +5,8 @@
 # Contributor: Filipe Laíns (FFY00) <lains@archlinux.org>
 # Contributor: Daniel M. Capella <polyzen@archlinux.org>
 
+_git=false
+_py="python"
 _build="true"
 _no_build="$( \
   "${_py}" \
@@ -15,10 +17,9 @@ _no_build="$( \
       "No module named")"
 [[ "${_no_build}" != "" ]] && \
   _build=false
-_py="python"
 _pkg=build
 pkgname="${_py}-${_pkg}"
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=3
 pkgdesc='A simple, correct Python build frontend'
 arch=(
@@ -36,10 +37,13 @@ depends=(
   "${_py}-pyproject-hooks"
 )
 makedepends=(
-  'git'
   "${_py}-flit-core"
   "${_py}-installer"
 )
+[[ "${_git}" == true ]] && \
+  makedepends+=(
+    'git'
+  )
 [[ "${_build}" == true ]] && \
   makedepends+=(
     "${_py}-build"
@@ -64,8 +68,15 @@ optdepends=(
   "${_py}-uv: to use as the Python package installer"
   "${_py}-virtualenv: to use virtualenv for build isolation"
 )
+if [[ "${_git}" == "true" ]]; then
+  _source="${_pkg}-${pkgver}::git+${url}#tag=${pkgver}?signed"
+  _sum='891acaf857efc18c210648a681c8499a47b6fe5ba58176d026bdfeffce665de26cd17580fcace2fb5970b2f21a37127ea73c196a5a2b8510dd84f6b873217c17'
+else
+  _source="${_pkg}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
+  _sum='308faba9fca554fc2ea347d20ee2f2a460060922c028d7ae37648290f4caa374616105d740ed285729204028d40bfb838b4de59ae20eaa8db1c0924f0d1cd8a8'
+fi
 source=(
-  "${pkgname}::git+${url}#tag=${pkgver}?signed"
+  "${_source}"
 )
 validpgpkeys=(
   # Filipe Laíns (FFY00) <lains@archlinux.org>
@@ -74,12 +85,12 @@ validpgpkeys=(
   '2FDEC9863E5E14C7BC429F27B9D0E45146A241E8'
 )
 b2sums=(
-  '891acaf857efc18c210648a681c8499a47b6fe5ba58176d026bdfeffce665de26cd17580fcace2fb5970b2f21a37127ea73c196a5a2b8510dd84f6b873217c17'
+  "${_sum}"
 )
 
 build() {
   cd \
-    "${pkgname}"
+    "${_pkg}-${pkgver}"
   if [[ "${_build}" == true ]]; then
     "${_py}" \
       -m build \
@@ -95,7 +106,7 @@ build() {
 
 check() {
   cd \
-    "${pkgname}"
+    "${_pkg}-${pkgver}"
   PYTHONPATH=src \
   pytest \
     -k \
@@ -117,7 +128,7 @@ package() {
       -c \
         "${_site_packages_cmd[*]}")
   cd \
-    "${pkgname}"
+    "${_pkg}-${pkgver}"
   if [[ "${_build}" == true ]]; then
     "${_py}" \
       -m installer \
